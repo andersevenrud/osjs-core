@@ -75,7 +75,8 @@ const methods = (core, request) => {
 
       return request('writefile', formData, undefined, {
         onProgress: options.onProgress,
-        xhr: !!options.onProgress
+        xhr: !!options.onProgress,
+        signal: options.signal,
       });
     },
 
