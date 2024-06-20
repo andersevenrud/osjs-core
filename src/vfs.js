@@ -77,6 +77,13 @@ const handleDirectoryList = (path, options) => result =>
       filter: options.filter
     }));
 
+// Returns a new "options" object without properties from "ignore"
+const filterOptions = (ignore, options) => Object.fromEntries(
+  Object
+    .entries(options)
+    .filter(([k]) => !ignore.includes(k))
+);
+
 /**
  * Get vfs capabilities
  *
@@ -105,7 +112,7 @@ export const capabilities = (adapter, mount) => (path, options = {}) => {
  * @return {Promise<object[]>} A list of files
  */
 export const readdir = (adapter, mount) => (path, options = {}) =>
-  adapter.readdir(pathToObject(path), options, mount)
+  adapter.readdir(pathToObject(path), filterOptions(['showHiddenFiles', 'filter'], options), mount)
     .then(handleDirectoryList(path, options));
 
 /**

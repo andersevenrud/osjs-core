@@ -91,7 +91,7 @@ const methods = (core, request) => {
     stat: passthrough('stat'),
 
     url: ({path}, options) => Promise.resolve(
-      core.url(`/vfs/readfile?path=${encodeURIComponent(path)}`)
+      core.url(`/vfs/readfile?path.s=${encodeURIComponent(path)}`)
     ),
 
     search: ({path}, pattern, options) =>
@@ -104,7 +104,7 @@ const methods = (core, request) => {
     download: ({path}, options = {}) => {
       const json = encodeURIComponent(JSON.stringify({download: true}));
 
-      return Promise.resolve(`/vfs/readfile?options=${json}&path=` + encodeURIComponent(path))
+      return Promise.resolve(`/vfs/readfile?options=${json}&path.s=` + encodeURIComponent(path))
         .then(url => {
           return (options.target || window).open(url);
         });
